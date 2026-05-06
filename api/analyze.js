@@ -2,7 +2,7 @@ import OpenAI from 'openai';
 import agents from '../lib/agents/index.js';
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+const model = 'gpt-5.4-nano-2026-03-17';
 
 function buildUserMessage(rawInput, previousOutputs) {
   let message = `## Raw Requirements\n\n${rawInput}`;
