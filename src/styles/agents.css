@@ -1,0 +1,101 @@
+/* ═══════════════ AGENT THEME CLASSES ═══════════════ */
+
+.agent-aria { --agent-color: var(--color-aria); --agent-bg: var(--color-aria-light); }
+.agent-quinn { --agent-color: var(--color-quinn); --agent-bg: var(--color-quinn-light); }
+.agent-rex { --agent-color: var(--color-rex); --agent-bg: var(--color-rex-light); }
+.agent-sage { --agent-color: var(--color-sage); --agent-bg: var(--color-sage-light); }
+
+.agent-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  background: var(--agent-bg);
+  border: 2.5px solid var(--agent-color);
+  transition: all var(--transition-bounce);
+  flex-shrink: 0;
+}
+.agent-avatar:hover {
+  transform: scale(1.12) translateZ(8px);
+  box-shadow: 0 0 24px color-mix(in srgb, var(--agent-color) 35%, transparent);
+}
+
+.agent-avatar-sm {
+  width: 36px;
+  height: 36px;
+  font-size: 1rem;
+  border-width: 2px;
+}
+
+.agent-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--color-text);
+}
+
+.agent-role {
+  font-size: 0.8rem;
+  color: var(--agent-color);
+  font-weight: 500;
+}
+
+.agent-glow {
+  box-shadow: 0 0 30px color-mix(in srgb, var(--agent-color) 25%, transparent),
+              0 8px 24px rgba(45, 27, 105, 0.08);
+}
+
+.agent-border-top {
+  border-top: 3px solid var(--agent-color);
+}
+
+.agent-status-thinking {
+  position: relative;
+  overflow: hidden;
+}
+.agent-status-thinking::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--agent-color) 10%, transparent) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s ease-in-out infinite;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.agent-status-complete {
+  animation: glowPulse 2s ease-in-out 2;
+}
+
+.thinking-dots::after {
+  content: '...';
+  animation: dots 1.4s steps(3, end) infinite;
+}
+
+.agent-connector {
+  flex: 1;
+  height: 3px;
+  background: var(--color-border);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+  min-width: 40px;
+}
+
+.agent-connector-active {
+  background: linear-gradient(90deg, var(--color-aria), var(--color-quinn), var(--color-rex), var(--color-sage));
+  background-size: 300% 100%;
+  animation: gradientShift 3s ease infinite;
+}
+
+.agent-connector-done {
+  background: var(--color-sage);
+}

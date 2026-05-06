@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.env
+.env.local
+.vercel/
+.cursor/
+*.db
+.DS_Store
+Thumbs.db
+server/
+client/
