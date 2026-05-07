@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useProject } from '../context/ProjectContext';
 import Upload from '../components/Upload/Upload';
@@ -11,6 +11,7 @@ export default function Home() {
   const [creating, setCreating] = useState(false);
   const navigate = useNavigate();
   const agentNames = Object.keys(AGENTS);
+  const formRef = useRef(null);
 
   useEffect(() => { fetchProjects(); }, [fetchProjects]);
 
@@ -63,7 +64,11 @@ export default function Home() {
           </p>
           <button
             className="btn-primary hero-cta"
-            onClick={() => setShowForm(!showForm)}
+            onClick={() => {
+              const next = !showForm;
+              setShowForm(next);
+              if (next) setTimeout(() => formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+            }}
           >
             {showForm ? '✕ Close' : '✨ New Project'}
           </button>
@@ -88,7 +93,7 @@ export default function Home() {
       </section>
 
       {showForm && (
-        <section className="new-project-section">
+        <section className="new-project-section" ref={formRef}>
           <Upload onSubmit={handleSubmit} loading={creating} />
         </section>
       )}
