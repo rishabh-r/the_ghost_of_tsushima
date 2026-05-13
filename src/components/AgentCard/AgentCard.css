@@ -1,35 +1,41 @@
 .agent-card {
   position: relative;
-  background: var(--color-surface);
-  border-radius: var(--radius-lg);
+  background: rgba(14, 24, 43, 0.86);
+  border-radius: var(--radius-md);
   overflow: hidden;
-  box-shadow: var(--shadow-md);
-  transition: all var(--transition);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
   cursor: default;
-  min-width: 180px;
+  min-width: 188px;
 }
 .agent-card[role="button"] {
   cursor: pointer;
 }
+.agent-card[role="button"]:focus-visible {
+  outline: none;
+  border-color: #9cb5ff;
+  box-shadow: 0 0 0 4px rgba(156, 181, 255, 0.2), var(--shadow-sm);
+}
 
 .agent-card-border {
-  height: 4px;
+  height: 3px;
   width: 100%;
 }
 
 .agent-card-body {
-  padding: 20px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   text-align: center;
 }
 
 .agent-card-info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
 }
 
 .agent-card-status {
@@ -40,32 +46,33 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 4px 12px;
-  border-radius: 50px;
-  font-size: 0.75rem;
-  font-weight: 600;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
 }
 .status-idle {
-  background: var(--color-bg-alt);
-  color: var(--color-text-muted);
+  background: rgba(129, 150, 193, 0.18);
+  color: #c6d2ea;
 }
 .status-thinking {
-  background: linear-gradient(135deg, #ede9fe, #fce7f3);
-  color: #7c3aed;
+  background: rgba(140, 168, 255, 0.2);
+  color: #c2d4ff;
 }
 .status-complete {
-  background: #e8faf8;
-  color: #059669;
+  background: rgba(112, 219, 161, 0.18);
+  color: #b6f1d0;
 }
 
-/* Compact variant */
 .agent-card-compact {
   min-width: auto;
 }
 .agent-card-compact .agent-card-body {
-  padding: 12px 16px;
+  padding: 11px 13px;
   flex-direction: row;
-  gap: 10px;
+  gap: 9px;
   text-align: left;
 }
 .agent-card-compact .agent-avatar {
@@ -77,8 +84,8 @@
   flex: 1;
 }
 .agent-card-compact .agent-name {
-  font-size: 0.9rem;
+  font-size: 0.88rem;
 }
 .agent-card-compact .agent-role {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
 }

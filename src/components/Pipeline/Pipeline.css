@@ -1,8 +1,9 @@
 .pipeline-wrapper {
-  background: var(--color-surface);
+  background: rgba(16, 27, 47, 0.88);
   border-radius: var(--radius-xl);
-  padding: 28px;
+  padding: 24px;
   box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
   animation: slideUp 0.5s ease-out;
 }
 
@@ -10,27 +11,33 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
+  margin-bottom: 18px;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 .pipeline-title {
-  font-size: 1.15rem;
+  font-size: 1rem;
   color: var(--color-text);
+  letter-spacing: -0.015em;
 }
 .pipeline-status-running {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: #7c3aed;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #c0d2ff;
 }
 .pipeline-status-done {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #059669;
-  background: #e8faf8;
-  padding: 4px 14px;
-  border-radius: 50px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: #b4f0cb;
+  background: rgba(112, 219, 161, 0.16);
+  padding: 6px 12px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  border: 1px solid rgba(112, 219, 161, 0.28);
 }
 
 .pipeline-track {
@@ -38,7 +45,7 @@
   align-items: center;
   gap: 0;
   overflow-x: auto;
-  padding: 10px 0;
+  padding: 10px 2px;
 }
 
 .pipeline-stage {
@@ -49,34 +56,40 @@
   flex-shrink: 0;
 }
 
+.pipeline-stage-active .agent-connector {
+  background: linear-gradient(90deg, rgba(140, 168, 255, 0.25), rgba(111, 214, 197, 0.45), rgba(140, 168, 255, 0.25));
+  background-size: 200% 100%;
+  animation: gradientShift 2.4s ease infinite;
+}
+
 .agent-connector {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 60px;
-  height: 3px;
+  width: 62px;
+  height: 2px;
   background: var(--color-border);
-  border-radius: 2px;
+  border-radius: 999px;
   position: relative;
   margin: 0 4px;
-  transition: background 0.5s ease;
+  transition: background-color var(--transition);
 }
 
 .connector-arrow {
   position: absolute;
   color: var(--color-text-muted);
-  font-size: 1rem;
+  font-size: 0.92rem;
   font-weight: 700;
-  opacity: 0.4;
+  opacity: 0.58;
 }
 .agent-connector-active .connector-arrow,
 .agent-connector-done .connector-arrow {
   opacity: 1;
-  color: #7c3aed;
+  color: #c3d5ff;
 }
 
 .pipeline-progress {
-  margin-top: 20px;
+  margin-top: 18px;
   display: flex;
   align-items: center;
   gap: 14px;
@@ -84,19 +97,40 @@
 .pipeline-progress-track {
   flex: 1;
   height: 6px;
-  background: var(--color-bg-alt);
-  border-radius: 3px;
+  background: rgba(121, 141, 184, 0.2);
+  border-radius: 999px;
   overflow: hidden;
 }
 .pipeline-progress-fill {
   height: 100%;
   background: var(--gradient-btn);
-  border-radius: 3px;
-  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 999px;
+  transform-origin: left center;
+  transform: scaleX(var(--progress, 0));
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .pipeline-progress-label {
-  font-size: 0.78rem;
+  font-size: 0.7rem;
   color: var(--color-text-muted);
-  font-weight: 500;
+  font-weight: 600;
   white-space: nowrap;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+  .pipeline-wrapper {
+    padding: 16px;
+    border-radius: var(--radius-lg);
+  }
+
+  .pipeline-progress {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .pipeline-progress-track {
+    width: 100%;
+  }
 }

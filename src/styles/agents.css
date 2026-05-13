@@ -1,4 +1,4 @@
-/* ═══════════════ AGENT THEME CLASSES ═══════════════ */
+/* Agent theme classes */
 
 .agent-aria { --agent-color: var(--color-aria); --agent-bg: var(--color-aria-light); }
 .agent-quinn { --agent-color: var(--color-quinn); --agent-bg: var(--color-quinn-light); }
@@ -12,40 +12,48 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   background: var(--agent-bg);
-  border: 2.5px solid var(--agent-color);
-  transition: all var(--transition-bounce);
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 8px 16px rgba(4, 9, 20, 0.36);
+  transition: transform var(--transition-bounce), box-shadow var(--transition), border-color var(--transition);
   flex-shrink: 0;
 }
 .agent-avatar:hover {
-  transform: scale(1.12) translateZ(8px);
-  box-shadow: 0 0 24px color-mix(in srgb, var(--agent-color) 35%, transparent);
+  transform: translateY(-2px) scale(1.04);
+  border-color: var(--agent-color);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.2),
+    0 0 0 4px rgba(255, 255, 255, 0.03),
+    0 16px 30px rgba(4, 9, 20, 0.48);
 }
 
 .agent-avatar-sm {
-  width: 36px;
-  height: 36px;
-  font-size: 1rem;
-  border-width: 2px;
+  width: 34px;
+  height: 34px;
+  font-size: 0.95rem;
+  border-width: 1px;
 }
 
 .agent-name {
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 600;
-  font-size: 1.05rem;
+  font-size: 1rem;
   color: var(--color-text);
 }
 
 .agent-role {
-  font-size: 0.8rem;
+  font-size: 0.76rem;
   color: var(--agent-color);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .agent-glow {
-  box-shadow: 0 0 30px color-mix(in srgb, var(--agent-color) 25%, transparent),
-              0 8px 24px rgba(45, 27, 105, 0.08);
+  box-shadow:
+    0 0 32px rgba(140, 168, 255, 0.2),
+    0 14px 32px rgba(4, 9, 20, 0.42);
 }
 
 .agent-border-top {
@@ -60,9 +68,10 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg,
+  background: linear-gradient(
+    95deg,
     transparent 0%,
-    color-mix(in srgb, var(--agent-color) 10%, transparent) 50%,
+    rgba(255, 255, 255, 0.12) 50%,
     transparent 100%
   );
   background-size: 200% 100%;
@@ -72,7 +81,7 @@
 }
 
 .agent-status-complete {
-  animation: glowPulse 2s ease-in-out 2;
+  animation: glowPulse 1.4s ease-in-out 2;
 }
 
 .thinking-dots::after {
@@ -82,9 +91,9 @@
 
 .agent-connector {
   flex: 1;
-  height: 3px;
+  height: 2px;
   background: var(--color-border);
-  border-radius: 2px;
+  border-radius: 999px;
   position: relative;
   overflow: hidden;
   min-width: 40px;

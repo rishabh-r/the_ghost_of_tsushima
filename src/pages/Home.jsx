@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useProject } from '../context/ProjectContext';
 import Upload from '../components/Upload/Upload';
 import { AGENTS } from '../components/AgentCard/AgentCard';
+import { ease, springs, timing } from '../motion/system';
 import './Home.css';
 
 export default function Home() {
@@ -10,8 +12,17 @@ export default function Home() {
   const [showForm, setShowForm] = useState(false);
   const [creating, setCreating] = useState(false);
   const navigate = useNavigate();
+  const shouldReduceMotion = useReducedMotion();
   const agentNames = Object.keys(AGENTS);
   const formRef = useRef(null);
+  const heroLines = ['Your AI-Powered', 'Development Crew'];
+
+  const sectionReveal = {
+    initial: shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 18, filter: 'blur(8px)' },
+    whileInView: { opacity: 1, y: 0, filter: 'blur(0px)' },
+    viewport: { once: true, amount: 0.22 },
+    transition: { duration: shouldReduceMotion ? timing.fast : timing.standard, ease: ease.premium },
+  };
 
   useEffect(() => { fetchProjects(); }, [fetchProjects]);
 
@@ -45,69 +56,124 @@ export default function Home() {
   }
 
   const statusColors = {
-    draft: '#9b8ec4',
-    analyzing: '#7c3aed',
-    completed: '#059669',
-    error: '#dc2626',
+    draft: '#c0cde7',
+    analyzing: '#b7cdff',
+    completed: '#b8f0cf',
+    error: '#ffc2c2',
   };
 
   return (
-    <div className="home">
-      <section className="hero scene-3d">
-        <div className="hero-content animate-slideUp">
+    <motion.div
+      className="home"
+      initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 18 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: shouldReduceMotion ? timing.fast : timing.slow, ease: ease.premium }}
+    >
+      <motion.section className="hero scene-3d section-fade" {...sectionReveal}>
+        <motion.div
+          className="hero-content"
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 20, filter: 'blur(6px)' }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: shouldReduceMotion ? 0 : 0.06, duration: shouldReduceMotion ? timing.fast : timing.slow, ease: ease.premium }}
+        >
           <h1 className="hero-title">
-            Your AI-Powered<br />
-            <span className="hero-gradient">Development Crew</span>
+            {heroLines.map((line, i) => (
+              <motion.span
+                key={line}
+                className={i === 1 ? 'hero-gradient' : ''}
+                style={{ display: 'block' }}
+                initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 16, filter: 'blur(8px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                transition={{ delay: shouldReduceMotion ? 0 : 0.09 + i * 0.08, duration: shouldReduceMotion ? timing.fast : timing.standard, ease: ease.soft }}
+              >
+                {line}
+              </motion.span>
+            ))}
           </h1>
-          <p className="hero-subtitle">
+          <motion.p
+            className="hero-subtitle"
+            initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: shouldReduceMotion ? 0 : 0.2, duration: timing.standard, ease: ease.premium }}
+          >
             Transform messy requirements into structured tasks, test cases, and project plans — powered by a crew of specialized AI agents.
-          </p>
-          <button
-            className="btn-primary hero-cta"
+          </motion.p>
+          <motion.button
+            className="btn-primary magnetic-btn hero-cta"
+            aria-expanded={showForm}
+            aria-controls="new-project-form"
             onClick={() => {
               const next = !showForm;
               setShowForm(next);
               if (next) setTimeout(() => formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
             }}
+            whileHover={shouldReduceMotion ? undefined : { y: -3, scale: 1.012, transition: springs.interaction }}
+            whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
           >
             {showForm ? '✕ Close' : '✨ New Project'}
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
 
         <div className="hero-agents">
           {agentNames.map((name, i) => {
             const a = AGENTS[name];
             return (
-              <div
+              <motion.div
                 key={name}
                 className={`hero-agent-card card-3d agent-${name}`}
                 style={{ animationDelay: `${i * 0.12}s`, '--agent-color': a.color }}
+                initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 16, filter: 'blur(6px)' }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: shouldReduceMotion ? 0 : 0.16 + i * 0.08, duration: shouldReduceMotion ? timing.fast : timing.standard, ease: ease.premium }}
+                whileHover={shouldReduceMotion ? undefined : { y: -4, scale: 1.01, transition: springs.interaction }}
               >
                 <div className={`agent-avatar agent-${name}`}>{a.emoji}</div>
                 <span className="agent-name">{a.displayName}</span>
                 <span className="agent-role">{a.role}</span>
-              </div>
+              </motion.div>
             );
           })}
         </div>
-      </section>
+      </motion.section>
 
       {showForm && (
-        <section className="new-project-section" ref={formRef}>
+        <motion.section
+          id="new-project-form"
+          className="new-project-section section-fade"
+          ref={formRef}
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 18, scale: 0.99, filter: 'blur(6px)' }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: shouldReduceMotion ? timing.fast : timing.standard, ease: ease.premium }}
+        >
           <Upload onSubmit={handleSubmit} loading={creating} />
-        </section>
+        </motion.section>
       )}
 
       {projects.length > 0 && (
-        <section className="projects-section animate-slideUp">
+        <motion.section
+          className="projects-section section-fade"
+          {...sectionReveal}
+        >
           <h2 className="section-title">Your Projects</h2>
           <div className="projects-grid">
             {projects.map((p, i) => (
-              <div
+              <motion.div
                 key={p.id}
                 className="project-card card-3d"
                 onClick={() => navigate(`/project/${p.id}`)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    navigate(`/project/${p.id}`);
+                  }
+                }}
+                role="button"
+                tabIndex={0}
                 style={{ animationDelay: `${i * 0.08}s` }}
+                initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 14, filter: 'blur(4px)' }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: shouldReduceMotion ? 0 : i * 0.05, duration: shouldReduceMotion ? timing.fast : timing.standard, ease: ease.premium }}
+                whileHover={shouldReduceMotion ? undefined : { y: -4, scale: 1.008, transition: springs.interaction }}
               >
                 <div className="project-card-header">
                   <h3 className="project-card-name">{p.name}</h3>
@@ -124,11 +190,11 @@ export default function Home() {
                 <div className="project-card-preview">
                   {p.rawInput?.substring(0, 100)}...
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </section>
+        </motion.section>
       )}
-    </div>
+    </motion.div>
   );
 }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { normalizeAria, normalizeQuinn, normalizeRex, normalizeSage } from '../../utils/normalize';
+import { motion } from 'framer-motion';
 import './Dashboard.css';
 
 export default function Dashboard({ agentOutputs }) {
@@ -46,16 +47,20 @@ function StatCard({ label, value, color, emoji, delay }) {
   }, [value]);
 
   return (
-    <div
+    <motion.div
       className="stat-card card-3d"
       style={{ '--stat-color': color, animationDelay: `${delay}ms` }}
+      initial={{ opacity: 0, y: 10, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ delay: delay / 1000, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{ y: -4, rotateX: 1.4, rotateY: -1.4, scale: 1.015 }}
     >
       <div className="stat-emoji">{emoji}</div>
       <div className="stat-value">{displayed}</div>
       <div className="stat-label">{label}</div>
       <div className="stat-bar">
-        <div className="stat-bar-fill" style={{ background: color, width: value > 0 ? '100%' : '0%' }} />
+        <div className="stat-bar-fill" style={{ background: color, '--stat-scale': value > 0 ? 1 : 0 }} />
       </div>
-    </div>
+    </motion.div>
   );
 }

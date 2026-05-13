@@ -1,4 +1,5 @@
 import './ExportPanel.css';
+import { motion } from 'framer-motion';
 
 const FORMATS = [
   { key: 'json', label: 'JSON', desc: 'Full analysis data', icon: '📦' },
@@ -68,21 +69,30 @@ export default function ExportPanel({ project, agentOutputs }) {
   const handlers = { json: exportJSON, csv: exportCSV, jira: exportJira };
 
   return (
-    <div className="export-panel animate-slideUp">
+    <motion.div
+      className="export-panel animate-slideUp"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
+    >
       <h4 className="export-title">Export Results</h4>
       <div className="export-cards">
         {FORMATS.map(f => (
-          <button
+          <motion.button
             key={f.key}
             className="export-card card-3d"
             onClick={() => handlers[f.key](project, agentOutputs)}
+            aria-label={`Export as ${f.label}`}
+            whileHover={{ y: -4, rotateZ: -0.4 }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ type: 'spring', stiffness: 360, damping: 20 }}
           >
             <span className="export-icon">{f.icon}</span>
             <span className="export-label">{f.label}</span>
             <span className="export-desc">{f.desc}</span>
-          </button>
+          </motion.button>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }

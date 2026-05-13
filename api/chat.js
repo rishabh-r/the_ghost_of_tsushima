@@ -2,7 +2,7 @@ import OpenAI from 'openai';
 import agents from '../lib/agents/index.js';
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-const model = 'gpt-5.4-nano-2026-03-17';
+const model = 'openai/gpt-oss-20b';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {

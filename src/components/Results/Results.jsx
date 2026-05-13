@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { normalizeAria, normalizeQuinn, normalizeRex, normalizeSage } from '../../utils/normalize';
+import { AnimatePresence, motion } from 'framer-motion';
 import './Results.css';
 
 const TABS = [
@@ -18,36 +19,54 @@ export default function Results({ agentOutputs }) {
 
   return (
     <div className="results-wrapper animate-slideUp">
-      <div className="results-tabs">
+      <div className="results-tabs" role="tablist" aria-label="Analysis sections">
         {TABS.map(tab => (
-          <button
+          <motion.button
             key={tab.key}
             className={`results-tab ${activeTab === tab.key ? 'results-tab-active' : ''}`}
             style={{ '--tab-color': tab.color }}
             onClick={() => setActiveTab(tab.key)}
+            role="tab"
+            aria-selected={activeTab === tab.key}
+            aria-controls={`results-panel-${tab.key}`}
+            id={`results-tab-${tab.key}`}
+            whileHover={{ y: -2 }}
+            whileTap={{ scale: 0.97 }}
           >
             <span className="results-tab-emoji">{tab.emoji}</span>
             {tab.label}
             {agentOutputs[tab.key] && <span className="results-tab-dot" />}
-          </button>
+          </motion.button>
         ))}
       </div>
 
-      <div className="results-content">
-        {!data ? (
-          <div className="empty-state">
-            <span className="empty-state-emoji">{TABS.find(t => t.key === activeTab)?.emoji}</span>
-            <p className="empty-state-text">Waiting for analysis...</p>
-          </div>
-        ) : (
-          <>
-            {activeTab === 'aria' && <AriaResults data={data} />}
-            {activeTab === 'quinn' && <QuinnResults data={data} />}
-            {activeTab === 'rex' && <RexResults data={data} />}
-            {activeTab === 'sage' && <SageResults data={data} />}
-          </>
-        )}
-      </div>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeTab}
+          className="results-content"
+          role="tabpanel"
+          id={`results-panel-${activeTab}`}
+          aria-labelledby={`results-tab-${activeTab}`}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {!data ? (
+            <div className="empty-state">
+              <span className="empty-state-emoji">{TABS.find(t => t.key === activeTab)?.emoji}</span>
+              <p className="empty-state-text">Waiting for analysis...</p>
+            </div>
+          ) : (
+            <>
+              {activeTab === 'aria' && <AriaResults data={data} />}
+              {activeTab === 'quinn' && <QuinnResults data={data} />}
+              {activeTab === 'rex' && <RexResults data={data} />}
+              {activeTab === 'sage' && <SageResults data={data} />}
+            </>
+          )}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }
@@ -64,10 +83,17 @@ function AriaResults({ data }) {
       <h4 className="result-section-title">Requirements ({data.requirements?.length || 0})</h4>
       <div className="result-cards">
         {data.requirements?.map((req, i) => (
-          <div key={i} className="result-card card-3d">
-            <div className="result-card-header">
-              <span className="result-id">{req.id}</span>
-              <div className="result-badges">
+        <motion.div
+          key={i}
+          className="result-card card-3d"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: i * 0.04, duration: 0.28 }}
+          whileHover={{ y: -3 }}
+        >
+          <div className="result-card-header">
+            <span className="result-id">{req.id}</span>
+            <div className="result-badges">
                 <span className={`badge badge-${req.type?.replace(/[- ]/g, '_')?.replace('non_functional','medium')}`}>
                   {req.type}
                 </span>
@@ -77,7 +103,7 @@ function AriaResults({ data }) {
             <h5 className="result-card-title">{req.title}</h5>
             <p className="result-card-desc">{req.description}</p>
             {req.source && <p className="result-card-source">Source: "{req.source}"</p>}
-          </div>
+          </motion.div>
         ))}
       </div>
       {data.assumptions?.length > 0 && (
@@ -101,7 +127,7 @@ function QuinnResults({ data }) {
         <div className="coverage-bar-wrap">
           <span className="coverage-label">Test Coverage Score</span>
           <div className="coverage-bar">
-            <div className="coverage-fill" style={{ width: `${data.coverageScore}%` }} />
+            <div className="coverage-fill" style={{ transform: `scaleX(${(data.coverageScore || 0) / 100})` }} />
           </div>
           <span className="coverage-value">{data.coverageScore}%</span>
         </div>
@@ -110,24 +136,35 @@ function QuinnResults({ data }) {
       <h4 className="result-section-title">Ambiguities ({data.ambiguities?.length || 0})</h4>
       <div className="result-cards">
         {data.ambiguities?.map((amb, i) => (
-          <div key={i} className="result-card card-3d ambiguity-card">
+          <motion.div
+            key={i}
+            className="result-card card-3d ambiguity-card"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.04, duration: 0.28 }}
+            whileHover={{ y: -3 }}
+          >
             <div className="result-card-header">
               <span className="result-id">{amb.requirementId}</span>
               <span className={`badge badge-${amb.severity}`}>{amb.severity}</span>
             </div>
             <p className="result-card-desc"><strong>Issue:</strong> {amb.issue}</p>
             <p className="result-card-suggestion">💡 {amb.suggestion}</p>
-          </div>
+          </motion.div>
         ))}
       </div>
 
       <h4 className="result-section-title">Test Cases ({data.testCases?.length || 0})</h4>
       <div className="result-cards">
         {data.testCases?.map((tc, i) => (
-          <div
+          <motion.div
             key={i}
             className={`result-card card-3d testcase-card ${expandedTC === i ? 'expanded' : ''}`}
             onClick={() => setExpandedTC(expandedTC === i ? null : i)}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.03, duration: 0.28 }}
+            whileHover={{ y: -3 }}
           >
             <div className="result-card-header">
               <span className="result-id">{tc.id}</span>
@@ -149,7 +186,7 @@ function QuinnResults({ data }) {
                 <p className="tc-expected"><strong>Expected:</strong> {tc.expectedResult}</p>
               </div>
             )}
-          </div>
+          </motion.div>
         ))}
       </div>
 
@@ -158,13 +195,20 @@ function QuinnResults({ data }) {
           <h4 className="result-section-title">Risks</h4>
           <div className="result-cards">
             {data.risks.map((r, i) => (
-              <div key={i} className="result-card card-3d">
+              <motion.div
+                key={i}
+                className="result-card card-3d"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.04, duration: 0.28 }}
+                whileHover={{ y: -3 }}
+              >
                 <div className="result-card-header">
                   <span className={`badge badge-${r.impact}`}>{r.impact} impact</span>
                 </div>
                 <p className="result-card-desc">{r.description}</p>
                 <p className="result-card-suggestion">🛡️ {r.mitigation}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </>
@@ -188,10 +232,14 @@ function RexResults({ data }) {
       <h4 className="result-section-title">Tasks ({data.tasks?.length || 0})</h4>
       <div className="result-cards">
         {data.tasks?.map((task, i) => (
-          <div
+          <motion.div
             key={i}
             className={`result-card card-3d task-card ${expanded === i ? 'expanded' : ''}`}
             onClick={() => setExpanded(expanded === i ? null : i)}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.03, duration: 0.28 }}
+            whileHover={{ y: -3 }}
           >
             <div className="result-card-header">
               <span className="result-id">{task.id}</span>
@@ -218,7 +266,7 @@ function RexResults({ data }) {
                 )}
               </div>
             )}
-          </div>
+          </motion.div>
         ))}
       </div>
 
@@ -263,7 +311,14 @@ function SageResults({ data }) {
           <h4 className="result-section-title">Milestones</h4>
           <div className="milestone-timeline">
             {data.milestones.map((m, i) => (
-              <div key={i} className="milestone-item card-3d">
+              <motion.div
+                key={i}
+                className="milestone-item card-3d"
+                initial={{ opacity: 0, x: -8 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.05, duration: 0.3 }}
+                whileHover={{ x: 2 }}
+              >
                 <div className="milestone-marker">{i + 1}</div>
                 <div className="milestone-content">
                   <h5>{m.name}</h5>
@@ -277,7 +332,7 @@ function SageResults({ data }) {
                     </div>
                   )}
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </>
@@ -288,7 +343,14 @@ function SageResults({ data }) {
           <h4 className="result-section-title">Risk Assessment</h4>
           <div className="result-cards">
             {data.risks.map((r, i) => (
-              <div key={i} className="result-card card-3d">
+              <motion.div
+                key={i}
+                className="result-card card-3d"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.04, duration: 0.28 }}
+                whileHover={{ y: -3 }}
+              >
                 <div className="result-card-header">
                   <div className="result-badges">
                     <span className={`badge badge-${r.probability}`}>P: {r.probability}</span>
@@ -297,7 +359,7 @@ function SageResults({ data }) {
                 </div>
                 <p className="result-card-desc">{r.description}</p>
                 <p className="result-card-suggestion">🛡️ {r.mitigation}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </>

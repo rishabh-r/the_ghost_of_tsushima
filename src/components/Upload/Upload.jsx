@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { motion } from 'framer-motion';
 import './Upload.css';
 
 export default function Upload({ onSubmit, loading }) {
@@ -41,10 +42,17 @@ export default function Upload({ onSubmit, loading }) {
   }
 
   return (
-    <form className="upload-form animate-slideUp" onSubmit={handleSubmit}>
+    <motion.form
+      className="upload-form animate-slideUp"
+      onSubmit={handleSubmit}
+      initial={{ opacity: 0, y: 14 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+    >
       <div className="upload-field">
-        <label className="upload-label">Project Name</label>
+        <label className="upload-label" htmlFor="project-name">Project Name</label>
         <input
+          id="project-name"
           type="text"
           className="upload-input"
           placeholder="e.g. E-Commerce Platform Requirements"
@@ -55,8 +63,9 @@ export default function Upload({ onSubmit, loading }) {
       </div>
 
       <div className="upload-field">
-        <label className="upload-label">Requirements</label>
+        <label className="upload-label" htmlFor="project-requirements">Requirements</label>
         <textarea
+          id="project-requirements"
           className="upload-textarea"
           placeholder="Paste your raw requirements, user stories, or feature descriptions here..."
           value={text}
@@ -69,13 +78,15 @@ export default function Upload({ onSubmit, loading }) {
         <span className="upload-divider-text">or upload a file</span>
       </div>
 
-      <div
+      <motion.div
         className={`upload-dropzone ${dragActive ? 'dropzone-active' : ''} ${file ? 'dropzone-has-file' : ''}`}
         onDragEnter={handleDrag}
         onDragOver={handleDrag}
         onDragLeave={handleDrag}
         onDrop={handleDrop}
         onClick={() => fileRef.current?.click()}
+        animate={dragActive ? { scale: 1.01, y: -2 } : { scale: 1, y: 0 }}
+        transition={{ type: 'spring', stiffness: 330, damping: 24 }}
       >
         <input
           ref={fileRef}
@@ -107,11 +118,11 @@ export default function Upload({ onSubmit, loading }) {
             </div>
           </>
         )}
-      </div>
+      </motion.div>
 
       <button
         type="submit"
-        className="btn-primary upload-submit"
+        className="btn-primary magnetic-btn upload-submit"
         disabled={loading || !name.trim() || (!text.trim() && !file)}
       >
         {loading ? (
@@ -123,6 +134,6 @@ export default function Upload({ onSubmit, loading }) {
           <>🚀 Launch Crew</>
         )}
       </button>
-    </form>
+    </motion.form>
   );
 }

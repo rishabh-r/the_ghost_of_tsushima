@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useProject } from '../context/ProjectContext';
 import { useSSE } from '../hooks/useSSE';
 import { useAgentChat } from '../hooks/useAgentChat';
@@ -8,6 +9,7 @@ import Results from '../components/Results/Results';
 import Dashboard from '../components/Dashboard/Dashboard';
 import ChatPanel from '../components/ChatPanel/ChatPanel';
 import ExportPanel from '../components/ExportPanel/ExportPanel';
+import { ease, springs, timing } from '../motion/system';
 import './ProjectView.css';
 
 export default function ProjectView() {
@@ -15,6 +17,7 @@ export default function ProjectView() {
   const { currentProject, fetchProject, updateProject } = useProject();
   const sse = useSSE();
   const chat = useAgentChat();
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => { fetchProject(id); }, [id, fetchProject]);
 
@@ -42,6 +45,12 @@ export default function ProjectView() {
 
   const isPipelineDone = sse.pipelineStatus === 'completed' || (hasSaved && Object.keys(savedAnalyses).length === 4);
   const canRun = currentProject?.rawInput && sse.pipelineStatus !== 'running';
+  const revealSection = {
+    initial: shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 12, filter: 'blur(5px)' },
+    whileInView: { opacity: 1, y: 0, filter: 'blur(0px)' },
+    viewport: { once: true, amount: 0.18 },
+    transition: { duration: shouldReduceMotion ? timing.fast : timing.standard, ease: ease.premium },
+  };
 
   function handleLaunch() {
     updateProject(id, { status: 'analyzing' });
@@ -57,8 +66,18 @@ export default function ProjectView() {
   };
 
   return (
-    <div className="project-view">
-      <div className="project-topbar animate-slideUp">
+    <motion.div
+      className="project-view"
+      initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 18 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: shouldReduceMotion ? timing.fast : timing.slow, ease: ease.premium }}
+    >
+      <motion.div
+        className="project-topbar section-fade"
+        initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 14, filter: 'blur(6px)' }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: shouldReduceMotion ? 0 : 0.05, duration: shouldReduceMotion ? timing.fast : timing.standard, ease: ease.premium }}
+      >
         <div className="topbar-left">
           <Link to="/" className="back-link">← Back</Link>
           <h2 className="project-name">{currentProject?.name || 'Loading...'}</h2>
@@ -70,32 +89,65 @@ export default function ProjectView() {
             </span>
           )}
           {canRun && (
-            <button className="btn-primary" onClick={handleLaunch}>
+            <motion.button
+              className="btn-primary magnetic-btn"
+              onClick={handleLaunch}
+              whileHover={shouldReduceMotion ? undefined : { y: -2, scale: 1.01, transition: springs.interaction }}
+              whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
+            >
               {hasSaved ? '🔄 Re-analyze' : '🚀 Launch Crew'}
-            </button>
+            </motion.button>
           )}
         </div>
-      </div>
+      </motion.div>
 
-      <Pipeline
-        activeAgent={sse.activeAgent}
-        completedAgents={sse.completedAgents}
-        pipelineStatus={sse.pipelineStatus === 'idle' && isPipelineDone ? 'completed' : sse.pipelineStatus}
-      />
+      <motion.div
+        className="section-fade"
+        {...revealSection}
+      >
+        <Pipeline
+          activeAgent={sse.activeAgent}
+          completedAgents={sse.completedAgents}
+          pipelineStatus={sse.pipelineStatus === 'idle' && isPipelineDone ? 'completed' : sse.pipelineStatus}
+        />
+      </motion.div>
 
       {sse.error && (
-        <div className="error-banner animate-scaleIn">
+        <motion.div
+          className="error-banner animate-scaleIn"
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: shouldReduceMotion ? timing.fast : timing.standard, ease: ease.premium }}
+        >
           <span>⚠️ {sse.error}</span>
           <button className="btn-secondary" onClick={handleLaunch}>Retry</button>
-        </div>
+        </motion.div>
       )}
 
       {hasResults && (
         <>
-          <Dashboard agentOutputs={displayOutputs} />
-          <Results agentOutputs={displayOutputs} />
+          <motion.div
+            className="section-fade"
+            {...revealSection}
+            transition={{ ...revealSection.transition, delay: shouldReduceMotion ? 0 : 0.1 }}
+          >
+            <Dashboard agentOutputs={displayOutputs} />
+          </motion.div>
+          <motion.div
+            className="section-fade"
+            {...revealSection}
+            transition={{ ...revealSection.transition, delay: shouldReduceMotion ? 0 : 0.18 }}
+          >
+            <Results agentOutputs={displayOutputs} />
+          </motion.div>
           {isPipelineDone && (
-            <ExportPanel project={currentProject} agentOutputs={displayOutputs} />
+            <motion.div
+              className="section-fade"
+              {...revealSection}
+              transition={{ ...revealSection.transition, delay: shouldReduceMotion ? 0 : 0.26 }}
+            >
+              <ExportPanel project={currentProject} agentOutputs={displayOutputs} />
+            </motion.div>
           )}
         </>
       )}
@@ -114,6 +166,6 @@ export default function ProjectView() {
         activeChat={chat.activeChat}
         setActiveChat={chat.setActiveChat}
       />
-    </div>
+    </motion.div>
   );
 }
