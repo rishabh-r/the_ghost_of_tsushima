@@ -10,6 +10,7 @@ import Dashboard from '../components/Dashboard/Dashboard';
 import ChatPanel from '../components/ChatPanel/ChatPanel';
 import ExportPanel from '../components/ExportPanel/ExportPanel';
 import { ease, springs, timing } from '../motion/system';
+import { flags } from '../config/runtimeFlags';
 import './ProjectView.css';
 
 export default function ProjectView() {
@@ -57,6 +58,11 @@ export default function ProjectView() {
     sse.startPipeline(currentProject.rawInput);
   }
 
+  function handleResetFlow() {
+    sse.stopPipeline();
+    updateProject(id, { status: 'draft' });
+  }
+
   const chatContext = {
     projectName: currentProject?.name,
     rawInput: currentProject?.rawInput,
@@ -83,6 +89,9 @@ export default function ProjectView() {
           <h2 className="project-name">{currentProject?.name || 'Loading...'}</h2>
         </div>
         <div className="topbar-right">
+          {flags.debug && (
+            <span className="debug-mode-badge">Debug</span>
+          )}
           {currentProject?.status && (
             <span className={`project-status project-status-${currentProject.status}`}>
               {currentProject.status}
@@ -109,6 +118,8 @@ export default function ProjectView() {
           activeAgent={sse.activeAgent}
           completedAgents={sse.completedAgents}
           pipelineStatus={sse.pipelineStatus === 'idle' && isPipelineDone ? 'completed' : sse.pipelineStatus}
+          showMockingStage={flags.mockPipeline}
+          estimatedStageSeconds={flags.mockPipeline ? 1 : 20}
         />
       </motion.div>
 
@@ -119,9 +130,35 @@ export default function ProjectView() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: shouldReduceMotion ? timing.fast : timing.standard, ease: ease.premium }}
         >
-          <span>⚠️ {sse.error}</span>
-          <button className="btn-secondary" onClick={handleLaunch}>Retry</button>
+          <div className="error-banner-content">
+            <span>⚠️ {sse.error}</span>
+            <p>Try rerunning the crew or reset the current flow state.</p>
+          </div>
+          <div className="error-actions">
+            <button className="btn-secondary" onClick={handleLaunch}>Retry</button>
+            <button className="btn-secondary" onClick={handleResetFlow}>Reset Flow</button>
+          </div>
         </motion.div>
+      )}
+
+      {!hasResults && sse.pipelineStatus === 'running' && (
+        <div className="analysis-loading-shell">
+          <div className="loading-block">
+            <div className="shimmer-line" style={{ width: '34%', marginBottom: 12 }} />
+            <div className="shimmer-line" style={{ width: '100%', marginBottom: 10 }} />
+            <div className="shimmer-line" style={{ width: '92%', marginBottom: 10 }} />
+            <div className="shimmer-line" style={{ width: '78%' }} />
+          </div>
+          <div className="loading-grid">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="loading-card">
+                <div className="shimmer-line" style={{ width: '40%', marginBottom: 10 }} />
+                <div className="shimmer-line" style={{ width: '90%', marginBottom: 8 }} />
+                <div className="shimmer-line" style={{ width: '74%' }} />
+              </div>
+            ))}
+          </div>
+        </div>
       )}
 
       {hasResults && (

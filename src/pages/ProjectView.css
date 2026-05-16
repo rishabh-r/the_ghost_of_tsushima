@@ -46,6 +46,17 @@
   align-items: center;
   gap: 10px;
 }
+.debug-mode-badge {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 212, 133, 0.42);
+  background: rgba(255, 197, 92, 0.15);
+  color: #ffdca0;
+}
 .project-status {
   padding: 6px 12px;
   border-radius: 999px;
@@ -89,6 +100,47 @@
   font-size: 0.88rem;
   font-weight: 600;
 }
+.error-banner-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.error-banner-content p {
+  font-size: 0.76rem;
+  color: #f4b3b3;
+  font-weight: 500;
+}
+.error-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.analysis-loading-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.loading-block {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  background: rgba(16, 27, 47, 0.74);
+}
+
+.loading-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.loading-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  background: rgba(16, 27, 47, 0.74);
+}
 
 @media (max-width: 768px) {
   .project-view {
@@ -112,5 +164,14 @@
   .error-banner {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .error-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .loading-grid {
+    grid-template-columns: 1fr 1fr;
   }
 }
