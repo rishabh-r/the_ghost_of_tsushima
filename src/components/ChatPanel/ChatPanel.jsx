@@ -75,7 +75,7 @@ export default function ChatPanel({ messages, sendMessage, isLoading, activeChat
           {currentMessages.length === 0 && agent && (
             <motion.div
               className="chat-empty"
-              initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 8, filter: 'blur(4px)' }}
+              initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: shouldReduceMotion ? timing.fast : timing.standard, ease: ease.premium }}
             >

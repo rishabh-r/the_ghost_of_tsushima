@@ -16,11 +16,11 @@ export const springs = {
 };
 
 export function enterUp(shouldReduceMotion, distance = 18) {
-  if (shouldReduceMotion) return { opacity: 1, y: 0, filter: 'blur(0px)' };
-  return { opacity: 0, y: distance, filter: 'blur(6px)' };
+  if (shouldReduceMotion) return { opacity: 1, y: 0 };
+  return { opacity: 0, y: distance };
 }
 
 export function enterDown(shouldReduceMotion, distance = 18) {
-  if (shouldReduceMotion) return { opacity: 1, y: 0, filter: 'blur(0px)' };
-  return { opacity: 0, y: -distance, filter: 'blur(6px)' };
+  if (shouldReduceMotion) return { opacity: 1, y: 0 };
+  return { opacity: 0, y: -distance };
 }

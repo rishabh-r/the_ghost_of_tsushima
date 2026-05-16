@@ -46,8 +46,8 @@ export default function ProjectView() {
   const isPipelineDone = sse.pipelineStatus === 'completed' || (hasSaved && Object.keys(savedAnalyses).length === 4);
   const canRun = currentProject?.rawInput && sse.pipelineStatus !== 'running';
   const revealSection = {
-    initial: shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 12, filter: 'blur(5px)' },
-    whileInView: { opacity: 1, y: 0, filter: 'blur(0px)' },
+    initial: shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 12 },
+    whileInView: { opacity: 1, y: 0 },
     viewport: { once: true, amount: 0.18 },
     transition: { duration: shouldReduceMotion ? timing.fast : timing.standard, ease: ease.premium },
   };
@@ -74,7 +74,7 @@ export default function ProjectView() {
     >
       <motion.div
         className="project-topbar section-fade"
-        initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 14, filter: 'blur(6px)' }}
+        initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: shouldReduceMotion ? 0 : 0.05, duration: shouldReduceMotion ? timing.fast : timing.standard, ease: ease.premium }}
       >

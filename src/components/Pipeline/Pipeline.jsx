@@ -28,7 +28,7 @@ export default function Pipeline({ activeAgent, completedAgents = [], pipelineSt
   return (
     <motion.div
       className="pipeline-wrapper"
-      initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 12, filter: 'blur(4px)' }}
+      initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: shouldReduceMotion ? timing.fast : timing.standard, ease: ease.premium }}
     >
@@ -51,7 +51,7 @@ export default function Pipeline({ activeAgent, completedAgents = [], pipelineSt
             key={name}
             className={`pipeline-stage ${getAgentStatus(name) === 'thinking' ? 'pipeline-stage-active' : ''}`}
             style={{ animationDelay: `${i * 0.1}s` }}
-            initial={shouldReduceMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: -12, filter: 'blur(5px)' }}
+            initial={shouldReduceMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
             animate={getAgentStatus(name) === 'thinking'
               ? (shouldReduceMotion ? { opacity: 1, x: 0, y: 0 } : { opacity: 1, x: 0, y: [0, -2, 0] })
               : { opacity: 1, x: 0, y: 0 }}

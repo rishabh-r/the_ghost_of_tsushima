@@ -14,9 +14,9 @@ export default function App() {
       <AnimatePresence mode="wait">
         <motion.div
           key={location.pathname}
-          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 14, filter: 'blur(8px)' }}
-          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          exit={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: -10, filter: 'blur(6px)' }}
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: -10 }}
           transition={{ duration: shouldReduceMotion ? timing.fast : timing.slow, ease: ease.premium }}
         >
           <Routes location={location}>

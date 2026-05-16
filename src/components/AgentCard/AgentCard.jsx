@@ -57,7 +57,7 @@ export default function AgentCard({ name, status = 'idle', compact = false, onCl
       }}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
-      initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 10, filter: 'blur(4px)' }}
+      initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
       animate={isThinking
         ? (shouldReduceMotion ? { opacity: 1, y: 0, rotate: 0 } : { opacity: 1, y: [0, -2, 0], rotate: [0, -0.2, 0.2, 0] })
         : { opacity: 1, y: 0, rotate: 0 }}

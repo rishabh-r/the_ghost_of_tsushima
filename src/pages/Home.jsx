@@ -18,8 +18,8 @@ export default function Home() {
   const heroLines = ['Your AI-Powered', 'Development Crew'];
 
   const sectionReveal = {
-    initial: shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 18, filter: 'blur(8px)' },
-    whileInView: { opacity: 1, y: 0, filter: 'blur(0px)' },
+    initial: shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 18 },
+    whileInView: { opacity: 1, y: 0 },
     viewport: { once: true, amount: 0.22 },
     transition: { duration: shouldReduceMotion ? timing.fast : timing.standard, ease: ease.premium },
   };
@@ -70,9 +70,27 @@ export default function Home() {
       transition={{ duration: shouldReduceMotion ? timing.fast : timing.slow, ease: ease.premium }}
     >
       <motion.section className="hero scene-3d section-fade" {...sectionReveal}>
+        <div className="hero-bg" aria-hidden="true">
+          <motion.div
+            className="hero-bg-orb hero-bg-orb-1"
+            animate={shouldReduceMotion ? { opacity: 0.2 } : { x: [0, 20, -10, 0], y: [0, -12, 10, 0], opacity: [0.18, 0.24, 0.18] }}
+            transition={shouldReduceMotion ? undefined : { duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          <motion.div
+            className="hero-bg-orb hero-bg-orb-2"
+            animate={shouldReduceMotion ? { opacity: 0.2 } : { x: [0, -18, 14, 0], y: [0, 14, -10, 0], opacity: [0.16, 0.22, 0.16] }}
+            transition={shouldReduceMotion ? undefined : { duration: 16, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          <motion.div
+            className="hero-bg-grid"
+            animate={shouldReduceMotion ? { opacity: 0.38 } : { opacity: [0.3, 0.44, 0.3], y: [0, 4, 0] }}
+            transition={shouldReduceMotion ? undefined : { duration: 7.5, repeat: Infinity, ease: ease.soft }}
+          />
+        </div>
+
         <motion.div
           className="hero-content"
-          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 20, filter: 'blur(6px)' }}
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: shouldReduceMotion ? 0 : 0.06, duration: shouldReduceMotion ? timing.fast : timing.slow, ease: ease.premium }}
         >
@@ -82,8 +100,8 @@ export default function Home() {
                 key={line}
                 className={i === 1 ? 'hero-gradient' : ''}
                 style={{ display: 'block' }}
-                initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 16, filter: 'blur(8px)' }}
-                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: shouldReduceMotion ? 0 : 0.09 + i * 0.08, duration: shouldReduceMotion ? timing.fast : timing.standard, ease: ease.soft }}
               >
                 {line}
@@ -122,7 +140,7 @@ export default function Home() {
                 key={name}
                 className={`hero-agent-card card-3d agent-${name}`}
                 style={{ animationDelay: `${i * 0.12}s`, '--agent-color': a.color }}
-                initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 16, filter: 'blur(6px)' }}
+                initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: shouldReduceMotion ? 0 : 0.16 + i * 0.08, duration: shouldReduceMotion ? timing.fast : timing.standard, ease: ease.premium }}
                 whileHover={shouldReduceMotion ? undefined : { y: -4, scale: 1.01, transition: springs.interaction }}
@@ -141,7 +159,7 @@ export default function Home() {
           id="new-project-form"
           className="new-project-section section-fade"
           ref={formRef}
-          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 18, scale: 0.99, filter: 'blur(6px)' }}
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 18, scale: 0.99 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: shouldReduceMotion ? timing.fast : timing.standard, ease: ease.premium }}
         >
@@ -170,7 +188,7 @@ export default function Home() {
                 role="button"
                 tabIndex={0}
                 style={{ animationDelay: `${i * 0.08}s` }}
-                initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 14, filter: 'blur(4px)' }}
+                initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: shouldReduceMotion ? 0 : i * 0.05, duration: shouldReduceMotion ? timing.fast : timing.standard, ease: ease.premium }}
                 whileHover={shouldReduceMotion ? undefined : { y: -4, scale: 1.008, transition: springs.interaction }}

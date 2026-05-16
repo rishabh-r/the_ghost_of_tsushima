@@ -13,8 +13,8 @@
 .bg-blob {
   position: absolute;
   border-radius: 50%;
-  filter: blur(95px);
-  opacity: 0.3;
+  filter: blur(72px);
+  opacity: 0.22;
 }
 .bg-blob-1 {
   width: 500px;
