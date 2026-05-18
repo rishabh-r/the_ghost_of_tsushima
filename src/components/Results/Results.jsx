@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { normalizeAria, normalizeQuinn, normalizeRex, normalizeSage } from '../../utils/normalize';
 import './Results.css';
 
 const TABS = [
@@ -8,9 +9,12 @@ const TABS = [
   { key: 'sage', label: 'Summary', emoji: '📋', color: '#96CEB4' },
 ];
 
+const normalizers = { aria: normalizeAria, quinn: normalizeQuinn, rex: normalizeRex, sage: normalizeSage };
+
 export default function Results({ agentOutputs }) {
   const [activeTab, setActiveTab] = useState('aria');
-  const data = agentOutputs[activeTab]?.output;
+  const rawData = agentOutputs[activeTab]?.output;
+  const data = rawData ? normalizers[activeTab](rawData) : null;
 
   return (
     <div className="results-wrapper animate-slideUp">

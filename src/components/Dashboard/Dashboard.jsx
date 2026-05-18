@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react';
+import { normalizeAria, normalizeQuinn, normalizeRex, normalizeSage } from '../../utils/normalize';
 import './Dashboard.css';
 
 export default function Dashboard({ agentOutputs }) {
-  const aria = agentOutputs.aria?.output;
-  const quinn = agentOutputs.quinn?.output;
-  const rex = agentOutputs.rex?.output;
-  const sage = agentOutputs.sage?.output;
+  const aria = normalizeAria(agentOutputs.aria?.output);
+  const quinn = normalizeQuinn(agentOutputs.quinn?.output);
+  const rex = normalizeRex(agentOutputs.rex?.output);
+  const sage = normalizeSage(agentOutputs.sage?.output);
 
   const stats = [
-    { label: 'Requirements', value: aria?.requirements?.length || 0, color: '#FF6B6B', emoji: '🔍' },
-    { label: 'Test Cases', value: quinn?.testCases?.length || 0, color: '#4ECDC4', emoji: '🧪' },
-    { label: 'Tasks', value: rex?.tasks?.length || 0, color: '#45B7D1', emoji: '⚙️' },
-    { label: 'Est. Hours', value: sage?.totalEstimatedHours || 0, color: '#96CEB4', emoji: '📋' },
+    { label: 'Requirements', value: aria.requirements.length, color: '#FF6B6B', emoji: '🔍' },
+    { label: 'Test Cases', value: quinn.testCases.length, color: '#4ECDC4', emoji: '🧪' },
+    { label: 'Tasks', value: rex.tasks.length, color: '#45B7D1', emoji: '⚙️' },
+    { label: 'Est. Hours', value: typeof sage.totalEstimatedHours === 'number' ? sage.totalEstimatedHours : parseInt(sage.totalEstimatedHours) || 0, color: '#96CEB4', emoji: '📋' },
   ];
 
   return (
