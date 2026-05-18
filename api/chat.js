@@ -44,7 +44,7 @@ export default async function handler(req, res) {
       model,
       messages,
       temperature: 0.5,
-      max_tokens: 2048,
+      max_completion_tokens: 2048,
     });
 
     const content = response.choices[0].message.content;
