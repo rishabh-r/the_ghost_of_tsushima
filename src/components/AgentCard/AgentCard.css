@@ -1,11 +1,10 @@
 .agent-card {
   position: relative;
-  background: rgba(14, 24, 43, 0.86);
+  background: var(--color-surface);
   border-radius: var(--radius-md);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
-  border: 1px solid var(--color-border);
-  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  transition: transform var(--transition), box-shadow var(--transition), background-color var(--transition);
   cursor: default;
   min-width: 188px;
 }
@@ -13,9 +12,9 @@
   cursor: pointer;
 }
 .agent-card[role="button"]:focus-visible {
-  outline: none;
-  border-color: #9cb5ff;
-  box-shadow: 0 0 0 4px rgba(156, 181, 255, 0.2), var(--shadow-sm);
+  outline: 1px solid rgba(103, 93, 83, 0.24);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(103, 93, 83, 0.12), var(--shadow-sm);
 }
 
 .agent-card-border {
@@ -54,16 +53,16 @@
   letter-spacing: 0.07em;
 }
 .status-idle {
-  background: rgba(129, 150, 193, 0.18);
-  color: #c6d2ea;
+  background: rgba(177, 179, 173, 0.18);
+  color: #6a6d66;
 }
 .status-thinking {
-  background: rgba(140, 168, 255, 0.2);
-  color: #c2d4ff;
+  background: rgba(103, 93, 83, 0.14);
+  color: var(--color-primary);
 }
 .status-complete {
-  background: rgba(112, 219, 161, 0.18);
-  color: #b6f1d0;
+  background: rgba(144, 160, 124, 0.16);
+  color: #6f8460;
 }
 
 .agent-card-compact {

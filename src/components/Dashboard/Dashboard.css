@@ -6,12 +6,11 @@
 }
 
 .stat-card {
-  background: rgba(16, 27, 47, 0.86);
+  background: var(--color-surface);
   border-radius: var(--radius-md);
   padding: 16px;
   text-align: center;
   box-shadow: var(--shadow-sm);
-  border: 1px solid var(--color-border);
   border-top: 2px solid var(--stat-color);
   animation: slideUp 0.5s ease-out both;
 }
@@ -20,7 +19,7 @@
   margin-bottom: 6px;
 }
 .stat-value {
-  font-family: 'Space Grotesk', monospace;
+  font-family: var(--font-display);
   font-size: clamp(1.5rem, 2vw, 1.92rem);
   font-weight: 700;
   color: var(--color-text);
@@ -37,7 +36,7 @@
 .stat-bar {
   margin-top: 10px;
   height: 4px;
-  background: rgba(129, 149, 191, 0.22);
+  background: rgba(177, 179, 173, 0.22);
   border-radius: 999px;
   overflow: hidden;
 }
@@ -46,6 +45,7 @@
   border-radius: 999px;
   transform-origin: left center;
   transform: scaleX(var(--stat-scale, 0));
+  background: var(--gradient-btn);
   transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 

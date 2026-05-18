@@ -1,9 +1,8 @@
 .upload-form {
-  background: rgba(16, 27, 47, 0.88);
+  background: var(--gradient-surface);
   border-radius: var(--radius-xl);
   padding: 30px;
   box-shadow: var(--shadow-md);
-  border: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -26,24 +25,24 @@
 .upload-input {
   min-height: 46px;
   padding: 11px 14px;
-  border: 1px solid var(--color-border);
+  border: 1px solid rgba(177, 179, 173, 0.15);
   border-radius: var(--radius-md);
   font-size: 0.88rem;
-  background: rgba(10, 17, 32, 0.85);
+  background: var(--color-bg-alt);
   color: var(--color-text);
   transition: border-color var(--transition), box-shadow var(--transition), background-color var(--transition);
 }
 .upload-input:focus {
-  border-color: #9ab4ff;
-  box-shadow: 0 0 0 3px rgba(154, 180, 255, 0.2);
-  background: rgba(9, 17, 33, 0.95);
+  border-color: rgba(103, 93, 83, 0.2);
+  box-shadow: 0 0 0 3px rgba(103, 93, 83, 0.12);
+  background: var(--color-surface);
 }
 .upload-textarea {
   padding: 12px 14px;
-  border: 1px solid var(--color-border);
+  border: 1px solid rgba(177, 179, 173, 0.15);
   border-radius: var(--radius-md);
   font-size: 0.86rem;
-  background: rgba(10, 17, 32, 0.85);
+  background: var(--color-bg-alt);
   color: var(--color-text);
   resize: vertical;
   min-height: 162px;
@@ -51,9 +50,9 @@
   transition: border-color var(--transition), box-shadow var(--transition), background-color var(--transition);
 }
 .upload-textarea:focus {
-  border-color: #9ab4ff;
-  box-shadow: 0 0 0 3px rgba(154, 180, 255, 0.2);
-  background: rgba(9, 17, 33, 0.95);
+  border-color: rgba(103, 93, 83, 0.2);
+  box-shadow: 0 0 0 3px rgba(103, 93, 83, 0.12);
+  background: var(--color-surface);
 }
 
 .upload-divider {
@@ -66,7 +65,7 @@
   content: '';
   flex: 1;
   height: 1px;
-  background: var(--color-border);
+  background: rgba(177, 179, 173, 0.18);
 }
 .upload-divider-text {
   font-size: 0.7rem;
@@ -78,7 +77,7 @@
 }
 
 .upload-dropzone {
-  border: 1px dashed rgba(153, 176, 223, 0.5);
+  border: 1px dashed rgba(177, 179, 173, 0.22);
   border-radius: var(--radius-lg);
   padding: 30px 16px;
   display: flex;
@@ -87,18 +86,18 @@
   gap: 9px;
   cursor: pointer;
   transition: border-color var(--transition), background-color var(--transition), transform var(--transition), box-shadow var(--transition);
-  background: rgba(9, 16, 30, 0.75);
+  background: var(--color-surface);
 }
 .upload-dropzone:hover,
 .dropzone-active {
-  border-color: #9ab4ff;
-  background: rgba(126, 154, 212, 0.16);
+  border-color: rgba(103, 93, 83, 0.28);
+  background: var(--color-surface-hover);
   transform: translateY(-1px);
-  box-shadow: 0 12px 32px rgba(4, 9, 20, 0.46);
+  box-shadow: 0 12px 32px rgba(48, 51, 47, 0.08);
 }
 .dropzone-has-file {
-  border-color: #72deb4;
-  background: rgba(111, 212, 168, 0.15);
+  border-color: rgba(144, 160, 124, 0.35);
+  background: rgba(144, 160, 124, 0.12);
 }
 
 .dropzone-icon {
@@ -120,8 +119,8 @@
 }
 .format-badge {
   padding: 4px 8px;
-  background: rgba(122, 145, 192, 0.14);
-  color: var(--color-text-light);
+  background: var(--color-primary-container);
+  color: var(--color-primary);
   font-size: 0.66rem;
   font-weight: 600;
   border-radius: 999px;
@@ -145,8 +144,8 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: rgba(245, 114, 114, 0.2);
-  color: #ffc3c3;
+  background: var(--color-primary-container);
+  color: var(--color-primary);
   font-size: 0.7rem;
   display: flex;
   align-items: center;
@@ -154,7 +153,7 @@
   transition: transform var(--transition), background-color var(--transition);
 }
 .dropzone-file-remove:hover {
-  background: rgba(245, 114, 114, 0.34);
+  background: #e1c9ba;
   transform: scale(1.05);
 }
 

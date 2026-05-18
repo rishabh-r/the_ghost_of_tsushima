@@ -1,9 +1,8 @@
 .pipeline-wrapper {
-  background: rgba(16, 27, 47, 0.88);
+  background: var(--gradient-surface);
   border-radius: var(--radius-xl);
   padding: 24px;
   box-shadow: var(--shadow-md);
-  border: 1px solid var(--color-border);
   animation: slideUp 0.5s ease-out;
 }
 
@@ -39,18 +38,18 @@
   gap: 8px;
   font-size: 0.78rem;
   font-weight: 600;
-  color: #c0d2ff;
+  color: var(--color-primary);
 }
 .pipeline-status-done {
   font-size: 0.66rem;
   font-weight: 700;
-  color: #b4f0cb;
-  background: rgba(112, 219, 161, 0.16);
+  color: #6f8460;
+  background: rgba(144, 160, 124, 0.16);
   padding: 6px 12px;
   border-radius: 999px;
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  border: 1px solid rgba(112, 219, 161, 0.28);
+  border: 1px solid rgba(177, 179, 173, 0.15);
 }
 
 .pipeline-track {
@@ -71,10 +70,9 @@
 
 .mock-stage-card {
   min-width: 188px;
-  background: rgba(14, 24, 43, 0.9);
+  background: var(--color-surface);
   border-radius: var(--radius-md);
-  border: 1px solid var(--color-border);
-  border-top: 3px solid #b2c4ff;
+  border-top: 3px solid rgba(103, 93, 83, 0.28);
   box-shadow: var(--shadow-sm);
   padding: 14px;
   display: flex;
@@ -91,13 +89,13 @@
   display: grid;
   place-items: center;
   font-size: 1.35rem;
-  background: rgba(156, 180, 255, 0.18);
-  border: 1px solid rgba(188, 205, 255, 0.45);
+  background: var(--color-primary-container);
+  border: 1px solid rgba(177, 179, 173, 0.15);
 }
 
 .mock-stage-name {
   display: block;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--font-display);
   font-size: 1rem;
   font-weight: 600;
   color: var(--color-text);
@@ -106,20 +104,20 @@
 .mock-stage-role {
   display: block;
   font-size: 0.74rem;
-  color: #bfcdf0;
+  color: var(--color-on-surface-variant);
   font-weight: 600;
 }
 
 .mock-stage-thinking {
-  border-top-color: #8eb0ff;
+  border-top-color: var(--color-primary);
 }
 
 .mock-stage-complete {
-  border-top-color: #8fe0aa;
+  border-top-color: var(--color-sage);
 }
 
 .pipeline-stage-active .agent-connector {
-  background: linear-gradient(90deg, rgba(140, 168, 255, 0.25), rgba(111, 214, 197, 0.45), rgba(140, 168, 255, 0.25));
+  background: linear-gradient(90deg, rgba(103, 93, 83, 0.25), rgba(103, 93, 83, 0.45), rgba(103, 93, 83, 0.25));
   background-size: 200% 100%;
   animation: gradientShift 2.4s ease infinite;
 }
@@ -130,7 +128,7 @@
   justify-content: center;
   width: 62px;
   height: 2px;
-  background: var(--color-border);
+  background: rgba(177, 179, 173, 0.22);
   border-radius: 999px;
   position: relative;
   margin: 0 4px;
@@ -147,7 +145,7 @@
 .agent-connector-active .connector-arrow,
 .agent-connector-done .connector-arrow {
   opacity: 1;
-  color: #c3d5ff;
+  color: var(--color-primary);
 }
 
 .pipeline-progress {
@@ -159,7 +157,7 @@
 .pipeline-progress-track {
   flex: 1;
   height: 6px;
-  background: rgba(121, 141, 184, 0.2);
+  background: rgba(177, 179, 173, 0.22);
   border-radius: 999px;
   overflow: hidden;
 }

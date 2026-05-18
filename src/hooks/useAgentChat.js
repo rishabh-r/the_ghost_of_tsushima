@@ -1,14 +1,22 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
+import { flags } from '../config/runtimeFlags';
+import { buildMockCrewResponse } from './mockCrewChat';
 
 export function useAgentChat() {
   const [messages, setMessages] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [activeChat, setActiveChat] = useState(null);
+  const messagesRef = useRef(messages);
+
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
 
   const sendMessage = useCallback(async (agent, message, context = {}) => {
     if (!agent || !message.trim()) return;
     setIsLoading(true);
 
+    const priorMessages = messagesRef.current[agent] || [];
     const userMsg = { role: 'user', content: message, agent_name: agent, created_at: new Date().toISOString() };
     setMessages(prev => ({
       ...prev,
@@ -16,7 +24,31 @@ export function useAgentChat() {
     }));
 
     try {
-      const history = (messages[agent] || []).map(m => ({ role: m.role, content: m.content }));
+      const history = priorMessages.map(m => ({ role: m.role, content: m.content }));
+
+      if (flags.mockChat) {
+        await new Promise(resolve => setTimeout(resolve, 520));
+
+        const assistantMsg = {
+          role: 'assistant',
+          content: buildMockCrewResponse({
+            agent,
+            message,
+            projectName: context.projectName || '',
+            rawInput: context.rawInput || '',
+            analyses: context.analyses || {},
+            history,
+          }),
+          agent_name: agent,
+          created_at: new Date().toISOString(),
+        };
+
+        setMessages(prev => ({
+          ...prev,
+          [agent]: [...(prev[agent] || []), assistantMsg],
+        }));
+        return;
+      }
 
       const res = await fetch('/api/chat', {
         method: 'POST',
@@ -52,5 +84,5 @@ export function useAgentChat() {
 
   const clearMessages = useCallback(() => setMessages({}), []);
 
-  return { messages, sendMessage, isLoading, activeChat, setActiveChat, clearMessages };
+  return { messages, sendMessage, isLoading, activeChat, setActiveChat, clearMessages, isMockChat: flags.mockChat };
 }

@@ -12,10 +12,12 @@
   flex-wrap: wrap;
   gap: 14px;
   padding: 16px 18px;
-  border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  background: rgba(16, 27, 47, 0.85);
-  box-shadow: var(--shadow-sm);
+  background: rgba(255, 253, 248, 0.84);
+  backdrop-filter: saturate(110%) blur(24px);
+  -webkit-backdrop-filter: saturate(110%) blur(24px);
+  border: 1px solid rgba(177, 179, 173, 0.15);
+  box-shadow: 0 18px 40px rgba(48, 51, 47, 0.08);
 }
 .topbar-left {
   display: flex;
@@ -24,18 +26,17 @@
 }
 .back-link {
   font-size: 0.79rem;
-  color: var(--color-text-light);
+  color: var(--color-primary);
   font-weight: 600;
-  transition: color var(--transition), transform var(--transition);
+  transition: color var(--transition), transform var(--transition), background-color var(--transition);
   padding: 8px 12px;
-  border: 1px solid var(--color-border);
   border-radius: 999px;
-  background: rgba(17, 29, 50, 0.72);
+  background: var(--color-primary-container);
 }
 .back-link:hover {
-  color: var(--color-text);
+  color: var(--color-primary-dim);
   transform: translateX(-1px);
-  border-color: rgba(160, 183, 231, 0.36);
+  background: #e8d8ca;
 }
 .project-name {
   font-size: clamp(1.2rem, 1.8vw, 1.6rem);
@@ -53,9 +54,9 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  border: 1px solid rgba(255, 212, 133, 0.42);
-  background: rgba(255, 197, 92, 0.15);
-  color: #ffdca0;
+  border: 1px solid rgba(177, 179, 173, 0.15);
+  background: rgba(239, 224, 212, 0.82);
+  color: var(--color-primary);
 }
 .project-status {
   padding: 6px 12px;
@@ -64,23 +65,23 @@
   font-weight: 700;
   text-transform: capitalize;
   letter-spacing: 0.06em;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(177, 179, 173, 0.15);
 }
 .project-status-draft {
-  background: rgba(147, 165, 204, 0.16);
-  color: #b7c5e4;
+  background: rgba(177, 179, 173, 0.16);
+  color: #666a63;
 }
 .project-status-analyzing {
-  background: rgba(139, 175, 255, 0.17);
-  color: #b8ceff;
+  background: rgba(103, 93, 83, 0.14);
+  color: var(--color-primary);
 }
 .project-status-completed {
-  background: rgba(119, 220, 171, 0.16);
-  color: #b4f0cb;
+  background: rgba(144, 160, 124, 0.16);
+  color: #6f8460;
 }
 .project-status-error {
-  background: rgba(245, 114, 114, 0.18);
-  color: #ffc2c2;
+  background: rgba(185, 109, 97, 0.14);
+  color: #a75f54;
 }
 
 .project-topbar .magnetic-btn {
@@ -93,10 +94,10 @@
   justify-content: space-between;
   gap: 12px;
   padding: 14px 16px;
-  background: rgba(245, 114, 114, 0.13);
-  border: 1px solid rgba(248, 157, 157, 0.35);
+  background: rgba(185, 109, 97, 0.1);
+  border: 1px solid rgba(185, 109, 97, 0.18);
   border-radius: var(--radius-md);
-  color: #ffc8c8;
+  color: #8f584e;
   font-size: 0.88rem;
   font-weight: 600;
 }
@@ -107,7 +108,7 @@
 }
 .error-banner-content p {
   font-size: 0.76rem;
-  color: #f4b3b3;
+  color: #a36f66;
   font-weight: 500;
 }
 .error-actions {
@@ -123,10 +124,10 @@
 }
 
 .loading-block {
-  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: 16px;
-  background: rgba(16, 27, 47, 0.74);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
 }
 
 .loading-grid {
@@ -136,10 +137,10 @@
 }
 
 .loading-card {
-  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: 14px;
-  background: rgba(16, 27, 47, 0.74);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
 }
 
 @media (max-width: 768px) {

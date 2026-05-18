@@ -1,16 +1,21 @@
 import { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import { AGENTS } from '../AgentCard/AgentCard';
 import { ease, springs, timing } from '../../motion/system';
 import './ChatPanel.css';
 
-export default function ChatPanel({ messages, sendMessage, isLoading, activeChat, setActiveChat }) {
+export default function ChatPanel({ messages, sendMessage, isLoading, activeChat, setActiveChat, isMockChat }) {
   const [input, setInput] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const messagesEndRef = useRef(null);
   const agentNames = Object.keys(AGENTS);
   const shouldReduceMotion = useReducedMotion();
+  const chatDescription = isMockChat
+    ? 'This is a local crew simulator. Pick an agent and ask a question; each reply is mocked from the agent role, project brief, and saved analyses.'
+    : 'Pick an agent and ask a question; each reply is grounded in the current project brief and saved analyses.';
+  const portalTarget = typeof document !== 'undefined' ? document.body : null;
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: shouldReduceMotion ? 'auto' : 'smooth' });
@@ -26,7 +31,9 @@ export default function ChatPanel({ messages, sendMessage, isLoading, activeChat
   const currentMessages = messages[activeChat] || [];
   const agent = activeChat ? AGENTS[activeChat] : null;
 
-  return (
+  if (!portalTarget) return null;
+
+  return createPortal(
     <>
       <motion.button
         className={`chat-toggle-btn btn-secondary ${isOpen ? 'chat-toggle-open' : ''}`}
@@ -47,7 +54,13 @@ export default function ChatPanel({ messages, sendMessage, isLoading, activeChat
         transition={shouldReduceMotion ? { duration: timing.fast } : springs.panel}
       >
         <div className="chat-header">
-          <h4 className="chat-title">Chat with Crew</h4>
+          <div className="chat-header-copy">
+            <div className="chat-title-row">
+              <h4 className="chat-title">Chat with Crew</h4>
+              {isMockChat && <span className="chat-mode-badge">Demo mode</span>}
+            </div>
+            <p className="chat-description">{chatDescription}</p>
+          </div>
           <button className="chat-close" aria-label="Close chat panel" onClick={() => setIsOpen(false)}>✕</button>
         </div>
 
@@ -80,7 +93,10 @@ export default function ChatPanel({ messages, sendMessage, isLoading, activeChat
               transition={{ duration: shouldReduceMotion ? timing.fast : timing.standard, ease: ease.premium }}
             >
               <span style={{ fontSize: '2rem' }}>{agent.emoji}</span>
-              <p>Ask <strong>{agent.displayName}</strong> anything about the analysis!</p>
+              <p>
+                Ask <strong>{agent.displayName}</strong> anything about the project.
+                {isMockChat ? ' This reply is a mock demo response.' : ''}
+              </p>
             </motion.div>
           )}
           <AnimatePresence initial={false}>
@@ -147,6 +163,7 @@ export default function ChatPanel({ messages, sendMessage, isLoading, activeChat
           </button>
         </form>
       </motion.div>
-    </>
+    </>,
+    portalTarget,
   );
 }

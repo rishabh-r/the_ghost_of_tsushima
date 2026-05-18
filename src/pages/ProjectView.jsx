@@ -202,6 +202,7 @@ export default function ProjectView() {
         isLoading={chat.isLoading}
         activeChat={chat.activeChat}
         setActiveChat={chat.setActiveChat}
+        isMockChat={chat.isMockChat}
       />
     </motion.div>
   );
